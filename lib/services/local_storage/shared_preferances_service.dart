@@ -24,13 +24,13 @@ class SharedPreferanceService {
     return prefs.setInt('Counter', counter);
   }
 
-  Future<void> setSession(List<String> session) async {
+  Future<void> setSession(String session) async {
     prefs = await SharedPreferences.getInstance();
-    return prefs.setStringList('Session', session);
+    return prefs.setString('Session', session);
   }
 
-  Future<List<String>> getSession() async {
+  Future<String> getSession() async {
     prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList('Session');
+    return prefs.getString('Session');
   }
 }

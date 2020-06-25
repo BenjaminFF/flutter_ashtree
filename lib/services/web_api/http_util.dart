@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ashtree/services/local_storage/shared_preferances_service.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -49,13 +50,16 @@ class HttpUtil {
 
     _dio.options = options;
 
-    _dio.interceptors.add(CookieManager(CookieJar()));
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+      String session = await SharedPreferanceService().getSession();
+      if (session.isNotEmpty) {
+        options.headers['cookie'] = session;
+      }
       return options;
     }, onResponse: (Response response) async {
-      List<String> cookie = response.headers['set-cookie'];
       if (response.data['errno'] == 0) {
+        print(response.data);
         return response;
       } else {
         throw new BusinessError(

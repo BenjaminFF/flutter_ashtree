@@ -1,7 +1,8 @@
+import 'package:ashtree/services/local_storage/shared_preferances_service.dart';
 import 'package:ashtree/services/web_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:dio/dio.dart'; // Import the Counter
+import 'dart:developer';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen();
@@ -19,9 +20,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future getData() async {
-    await Api()
-        .login(1592392597014, 'nonce1234567', '990460889@qq.com', 'Iamaman.');
-    // await Api().listSets();
+    // var res = await Api().login(new DateTime.now().millisecondsSinceEpoch,
+    //     'nonce12435678', '990460889@qq.com', 'Iamaman.');
+    // String uid = res['data']['uid'], token = res['data']['token'];
+    // String session ="uid=${uid};${uid}=${token}";
+    // await SharedPreferanceService().setSession(session);
+    var res = await Api().listSets();
+    print(res['data']);
+    // List<String> session=await SharedPreferanceService().getSession();
+    // print(session);
   }
 
   @override
@@ -40,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // Wrapping in the Observer will automatically re-render on changes to counter.value
             Observer(
               builder: (_) => Text(
-                'Home',
+                'Hoe',
                 style: Theme.of(context).textTheme.display1,
               ),
             ),
