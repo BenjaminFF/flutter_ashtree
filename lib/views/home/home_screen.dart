@@ -2,7 +2,6 @@ import 'package:ashtree/services/local_storage/shared_preferances_service.dart';
 import 'package:ashtree/services/web_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'dart:developer';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen();

@@ -10,9 +10,7 @@ class SharedPreferanceService {
     return _instance;
   }
 
-  SharedPreferanceService._init() {
-    
-  }
+  SharedPreferanceService._init() {}
 
   Future<int> getCounter() async {
     prefs = await SharedPreferences.getInstance();
@@ -31,6 +29,6 @@ class SharedPreferanceService {
 
   Future<String> getSession() async {
     prefs = await SharedPreferences.getInstance();
-    return prefs.getString('Session');
+    return prefs.getString('Session') ?? '';
   }
 }
