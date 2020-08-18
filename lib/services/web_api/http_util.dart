@@ -32,11 +32,9 @@ class HttpUtil {
     _dio = new Dio();
 
     BaseOptions options = BaseOptions();
-    options.baseUrl = 'http://192.168.1.3:8360/api';
-    options.connectTimeout = 5 * 1000;
-    options.receiveTimeout = 5 * 1000;
-    // options.contentType =
-    //     ContentType.parse('application/x-www-form-urlencoded') as String;
+    options.baseUrl = 'http://192.168.1.11:8360/api';
+    options.connectTimeout = 3 * 1000;
+    options.receiveTimeout = 3 * 1000;
 
     Map<String, dynamic> headers = Map<String, dynamic>();
     headers['Accept'] = 'application/json';
@@ -77,6 +75,16 @@ class HttpUtil {
     if (e.error is BusinessError) {
       print('BusinessError');
       print(e.error.message);
+      switch (e.error.code) {
+        case 405:
+          SharedPreferanceService().setSession('');
+          break;
+        default:
+          Fluttertoast.showMToast(
+            msg: e.error.message,
+            toastType: ToastType.ERROR,
+          );
+      }
     } else {
       print('DioError');
       print(e.message);
