@@ -46,6 +46,7 @@ abstract class _HomeStore with Store {
     return sets;
   }
 
+  @action
   onChanged({String value}) {
     filterText = value;
     curSets = getFilteredSets(sets, filterText);

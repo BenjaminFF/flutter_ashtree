@@ -12,13 +12,13 @@ mixin _$MultiChoiceStore on _MultiChoiceStore, Store {
   final _$optionsAtom = Atom(name: '_MultiChoiceStore.options');
 
   @override
-  List<dynamic> get options {
+  ObservableList<dynamic> get options {
     _$optionsAtom.reportRead();
     return super.options;
   }
 
   @override
-  set options(List<dynamic> value) {
+  set options(ObservableList<dynamic> value) {
     _$optionsAtom.reportWrite(value, super.options, () {
       super.options = value;
     });
@@ -39,18 +39,18 @@ mixin _$MultiChoiceStore on _MultiChoiceStore, Store {
     });
   }
 
-  final _$termAtom = Atom(name: '_MultiChoiceStore.term');
+  final _$answerAtom = Atom(name: '_MultiChoiceStore.answer');
 
   @override
-  String get term {
-    _$termAtom.reportRead();
-    return super.term;
+  String get answer {
+    _$answerAtom.reportRead();
+    return super.answer;
   }
 
   @override
-  set term(String value) {
-    _$termAtom.reportWrite(value, super.term, () {
-      super.term = value;
+  set answer(String value) {
+    _$answerAtom.reportWrite(value, super.answer, () {
+      super.answer = value;
     });
   }
 
@@ -69,11 +69,33 @@ mixin _$MultiChoiceStore on _MultiChoiceStore, Store {
   }
 
   @override
+  dynamic getButtonType(dynamic index) {
+    final _$actionInfo = _$_MultiChoiceStoreActionController.startAction(
+        name: '_MultiChoiceStore.getButtonType');
+    try {
+      return super.getButtonType(index);
+    } finally {
+      _$_MultiChoiceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic onItemTap(dynamic index) {
+    final _$actionInfo = _$_MultiChoiceStoreActionController.startAction(
+        name: '_MultiChoiceStore.onItemTap');
+    try {
+      return super.onItemTap(index);
+    } finally {
+      _$_MultiChoiceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 options: ${options},
 status: ${status},
-term: ${term}
+answer: ${answer}
     ''';
   }
 }

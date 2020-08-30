@@ -75,6 +75,17 @@ mixin _$HomeStore on _HomeStore, Store {
   }
 
   @override
+  dynamic onChanged({String value}) {
+    final _$actionInfo =
+        _$_HomeStoreActionController.startAction(name: '_HomeStore.onChanged');
+    try {
+      return super.onChanged(value: value);
+    } finally {
+      _$_HomeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 sets: ${sets},

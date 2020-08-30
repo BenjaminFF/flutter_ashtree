@@ -1,3 +1,4 @@
+import 'package:ashtree/components/button/button_comp.dart';
 import 'package:ashtree/models/pagecomps/multichoice/multichoice_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart'; // Import the Counter
@@ -30,6 +31,17 @@ class _MultichoiceState extends State<Multichoice> {
     );
   }
 
+  getDefinitionColor() {
+    switch (_mcStore.status) {
+      case 0:
+        return null;
+      case 1:
+        return Theme.of(context).colorScheme.primary;
+      case 2:
+        return Theme.of(context).colorScheme.error;
+    }
+  }
+
   renderDefinition() {
     return Container(
       child: Text(
@@ -37,6 +49,7 @@ class _MultichoiceState extends State<Multichoice> {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 26,
+          color: getDefinitionColor(),
         ),
       ),
     );
@@ -47,41 +60,18 @@ class _MultichoiceState extends State<Multichoice> {
     return options != null
         ? Flexible(
             child: ListView.builder(
-            itemCount: options.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                margin: EdgeInsets.only(top: 32),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 1),
-                        blurRadius: 4.0)
-                  ],
-                  borderRadius: BorderRadius.circular(4.0),
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.black26
-                  ),
-                  color: Colors.white,
-                ),
-                child: Material(
-                  borderRadius: BorderRadius.circular(4.0),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(4),
-                    onTap: () {},
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        options[index]['text'],
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ))
+              itemCount: options.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Button(
+                  buttonType: _mcStore.getButtonType(index),
+                  text: options[index]['text'],
+                  onTap: () {
+                    _mcStore.onItemTap(index);
+                  },
+                );
+              },
+            ),
+          )
         : Center(
             child: Text(
               '加载中...',
@@ -92,6 +82,7 @@ class _MultichoiceState extends State<Multichoice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Observer(
         builder: (_) => SafeArea(
           child: Container(

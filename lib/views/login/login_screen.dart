@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: EdgeInsets.only(top: 64, bottom: 32),
       child: Text(
         'EWORDFUN',
-        style: TextStyle(fontSize: 24, color: Theme.of(context).primaryColor),
+        style: Theme.of(context).textTheme.headline1,
         textAlign: TextAlign.center,
       ),
     );
@@ -97,10 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
           if (!_loginStore.autovalidate)
             _loginStore.setAutovalidate(autovalidate: true);
         },
-        child: Text('登陆'),
+        child: Text(
+          '登陆',
+          style: TextStyle(fontSize: 16.0, letterSpacing: 12.0),
+        ),
         splashColor: Theme.of(context).primaryColor,
         elevation: 0,
-        padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),

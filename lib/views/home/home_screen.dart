@@ -26,24 +26,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: TextFormField(
         maxLength: 30,
         maxLines: 1,
-        style: TextStyle(fontSize: 16.0),
+        style: Theme.of(context).textTheme.bodyText2,
         onChanged: (String value) {
           _homeStore.onChanged(value: value);
         },
         decoration: InputDecoration(
-          errorStyle: TextStyle(height: 1),
-          helperStyle: TextStyle(height: 1),
           helperText: '',
           counterText: '',
-          filled: true,
-          fillColor: Color(0xffebeef5),
-          contentPadding: EdgeInsets.only(left: 12.0, right: 12.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(5.0),
-            ),
-            borderSide: BorderSide.none,
-          ),
         ),
       ),
     );
@@ -74,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.only(left: 16),
           child: Text(
             item['name'],
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.headline6,
           ),
         ),
         Padding(

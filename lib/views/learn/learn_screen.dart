@@ -1,4 +1,4 @@
-import 'package:ashtree/components/pagecomps/Multichoice.dart';
+import 'package:ashtree/components/pagecomps/multichoice/multichoice_comp.dart';
 import 'package:ashtree/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
