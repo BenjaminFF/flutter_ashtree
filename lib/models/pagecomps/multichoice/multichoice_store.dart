@@ -39,9 +39,10 @@ abstract class _MultiChoiceStore with Store {
   }
 
   @action
-  onItemTap(index) {
+  onItemTap(index, Function(int) callback) {
     if (status != 0) return;
     options[index]['active'] = true;
     status = options[index]['text'] == answer ? 1 : 2;
+    if (callback != null) callback(status);
   }
 }

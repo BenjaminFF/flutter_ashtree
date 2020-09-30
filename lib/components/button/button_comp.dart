@@ -6,18 +6,24 @@ enum ButtonType {
   Error,
   Plain,
   Primary,
+  Active,
 }
 
 bool onTapDowned = false;
 
 class Button extends StatefulWidget {
-  const Button(
-      {Key key, this.buttonType = ButtonType.Plain, this.text, this.onTap})
-      : super(key: key);
+  const Button({
+    Key key,
+    this.buttonType = ButtonType.Plain,
+    this.text,
+    this.onTap,
+    this.margin,
+  }) : super(key: key);
 
   final ButtonType buttonType;
   final String text;
   final GestureTapCallback onTap;
+  final EdgeInsets margin;
 
   @override
   _ButtonState createState() => _ButtonState();
@@ -31,6 +37,11 @@ class _ButtonState extends State<Button> {
         splashColor = Colors.transparent;
         highlightColor = Theme.of(context).colorScheme.secondary;
         backgroundColor = Colors.white;
+        break;
+      case ButtonType.Active:
+        splashColor = Colors.transparent;
+        highlightColor = Theme.of(context).colorScheme.secondary;
+        backgroundColor = Theme.of(context).colorScheme.secondary;
         break;
       case ButtonType.Success:
         splashColor = Colors.transparent;
@@ -58,47 +69,50 @@ class _ButtonState extends State<Button> {
     }
 
     return Material(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(4.0),
-        child: Ink(
-          child: InkWell(
-            splashColor: splashColor,
-            highlightColor: highlightColor,
-            borderRadius: BorderRadius.circular(4),
-            onTap: () {
-              setState(() {
-                onTapDowned = false;
-              });
-              if (widget.onTap != null) {
-                widget.onTap();
-              }
-            },
-            onTapDown: (details) {
-              setState(() {
-                onTapDowned = true;
-              });
-            },
-            onTapCancel: () {
-              setState(() {
-                onTapDowned = false;
-              });
-            },
+      color: backgroundColor,
+      borderRadius: BorderRadius.circular(4.0),
+      child: Ink(
+        child: InkWell(
+          splashColor: splashColor,
+          highlightColor: highlightColor,
+          borderRadius: BorderRadius.circular(4),
+          onTap: () {
+            setState(() {
+              onTapDowned = false;
+            });
+            if (widget.onTap != null) {
+              widget.onTap();
+            }
+          },
+          onTapDown: (details) {
+            setState(() {
+              onTapDowned = true;
+            });
+          },
+          onTapCancel: () {
+            setState(() {
+              onTapDowned = false;
+            });
+          },
+          child: Center(
             child: Padding(
-              padding: EdgeInsets.all(18),
+              padding: EdgeInsets.all(16),
               child: Text(
                 widget.text,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: textColor, fontSize: 18.0),
+                style: TextStyle(color: textColor, fontSize: 16.0),
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 32),
+      margin: widget.margin ?? EdgeInsets.only(top: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
         border: widget.buttonType == ButtonType.Plain
@@ -114,9 +128,9 @@ class _ButtonState extends State<Button> {
             ? [
                 BoxShadow(
                   color:
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.03),
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.02),
                   spreadRadius: 1,
-                  blurRadius: 5,
+                  blurRadius: 4,
                   offset: Offset(0, 0),
                 )
               ]

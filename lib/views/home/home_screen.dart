@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   renderListItem(index) {
     List sets = _homeStore.curSets;
     return Container(
-      margin: EdgeInsets.only(left: 8, bottom: 16, right: 8),
+      margin: EdgeInsets.only(left: 8, bottom: 20, right: 8),
       child: InkWell(
         borderRadius: BorderRadius.circular(4),
         onTap: () async {

@@ -1,4 +1,5 @@
 import 'package:ashtree/components/pagecomps/multichoice/multichoice_comp.dart';
+import 'package:ashtree/components/pagecomps/wordcomb/wordcomb_comp.dart';
 import 'package:ashtree/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -28,11 +29,13 @@ class _LearnScreenState extends State<LearnScreen> {
     return Scaffold(
       body: Observer(
         builder: (_) => SafeArea(
-          child: Multichoice(
-            term: 'answer',
+          child: WordComb(
+            term: 'answer correct',
             definition: 'dlkasfjasjkf asdlfkjasfjlkasjkfakjsfjk  adsklfjasjf',
-            otherOptions: ['term1', 'term2', 'term3'],
-            callBack: null,
+            row: 3,
+            callBack: (status) {
+              print(status);
+            },
           ),
         ),
       ),

@@ -1,7 +1,15 @@
 import 'package:ashtree/components/button/button_comp.dart';
 import 'package:ashtree/models/pagecomps/multichoice/multichoice_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart'; // Import the Counter
+import 'package:flutter_mobx/flutter_mobx.dart';
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+}
 
 class Multichoice extends StatefulWidget {
   const Multichoice({
@@ -13,7 +21,7 @@ class Multichoice extends StatefulWidget {
 
   final String term, definition;
   final List otherOptions;
-  final Function callBack;
+  final Function(int) callBack;
 
   @override
   _MultichoiceState createState() => _MultichoiceState();
@@ -44,11 +52,12 @@ class _MultichoiceState extends State<Multichoice> {
 
   renderDefinition() {
     return Container(
+      margin: EdgeInsets.only(bottom: 32, top: 32),
       child: Text(
         widget.definition,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 26,
+          fontSize: 18,
           color: getDefinitionColor(),
         ),
       ),
@@ -59,17 +68,21 @@ class _MultichoiceState extends State<Multichoice> {
     List options = _mcStore.options;
     return options != null
         ? Flexible(
-            child: ListView.builder(
-              itemCount: options.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Button(
-                  buttonType: _mcStore.getButtonType(index),
-                  text: options[index]['text'],
-                  onTap: () {
-                    _mcStore.onItemTap(index);
-                  },
-                );
-              },
+            child: ScrollConfiguration(
+              behavior: MyBehavior(),
+              child: ListView.builder(
+                itemCount: options.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Button(
+                    margin: EdgeInsets.only(top: 16),
+                    buttonType: _mcStore.getButtonType(index),
+                    text: options[index]['text'],
+                    onTap: () {
+                      _mcStore.onItemTap(index, widget.callBack);
+                    },
+                  );
+                },
+              ),
             ),
           )
         : Center(
@@ -88,14 +101,12 @@ class _MultichoiceState extends State<Multichoice> {
           child: Container(
             width: double.infinity,
             margin: EdgeInsets.only(top: 30, left: 16, right: 16),
-            child: Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  renderDefinition(),
-                  renderOptions(),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                renderDefinition(),
+                renderOptions(),
+              ],
             ),
           ),
         ),

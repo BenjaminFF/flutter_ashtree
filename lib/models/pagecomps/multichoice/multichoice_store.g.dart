@@ -80,11 +80,11 @@ mixin _$MultiChoiceStore on _MultiChoiceStore, Store {
   }
 
   @override
-  dynamic onItemTap(dynamic index) {
+  dynamic onItemTap(dynamic index, dynamic Function(int) callback) {
     final _$actionInfo = _$_MultiChoiceStoreActionController.startAction(
         name: '_MultiChoiceStore.onItemTap');
     try {
-      return super.onItemTap(index);
+      return super.onItemTap(index, callback);
     } finally {
       _$_MultiChoiceStoreActionController.endAction(_$actionInfo);
     }
