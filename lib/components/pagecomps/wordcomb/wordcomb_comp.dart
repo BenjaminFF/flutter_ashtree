@@ -54,8 +54,8 @@ class _MultichoiceState extends State<WordComb> {
         Container(
           width: item['text'] == "" || item['isSpace'] ? 20 : null,
           margin: !item['isSpace'] && item['text'] == ""
-              ? EdgeInsets.only(left: 5, right: 5)
-              : null,
+              ? EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10)
+              : EdgeInsets.only(top: 10, bottom: 10),
           child: Text(
             item['text'],
             textAlign: TextAlign.center,
@@ -64,19 +64,21 @@ class _MultichoiceState extends State<WordComb> {
               color: getDefinitionColor(),
             ),
           ),
-          decoration: item['text'] == "" && !item['isSpace']
-              ? BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: 1.5,
-                    ),
-                  ),
-                )
-              : null,
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                width: 1.5,
+                color: item['text'] == "" && !item['isSpace']
+                    ? Color(0xFF000000)
+                    : Colors.transparent,
+              ),
+            ),
+          ),
         ),
       );
     });
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         _mcStore.retreat();
         setState(() {});
@@ -145,7 +147,7 @@ class _MultichoiceState extends State<WordComb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      // backgroundColor: Theme.of(context).backgroundColor,
       body: Observer(
         builder: (_) => SafeArea(
           child: Container(

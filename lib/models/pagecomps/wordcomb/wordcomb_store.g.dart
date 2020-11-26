@@ -69,21 +69,6 @@ mixin _$WordCombStore on _WordCombStore, Store {
     });
   }
 
-  final _$curAnswerAtom = Atom(name: '_WordCombStore.curAnswer');
-
-  @override
-  String get curAnswer {
-    _$curAnswerAtom.reportRead();
-    return super.curAnswer;
-  }
-
-  @override
-  set curAnswer(String value) {
-    _$curAnswerAtom.reportWrite(value, super.curAnswer, () {
-      super.curAnswer = value;
-    });
-  }
-
   final _$isSpaceAtom = Atom(name: '_WordCombStore.isSpace');
 
   @override
@@ -140,6 +125,17 @@ mixin _$WordCombStore on _WordCombStore, Store {
   }
 
   @override
+  dynamic retreat() {
+    final _$actionInfo = _$_WordCombStoreActionController.startAction(
+        name: '_WordCombStore.retreat');
+    try {
+      return super.retreat();
+    } finally {
+      _$_WordCombStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic onItemTap(dynamic index, dynamic Function(int) callback) {
     final _$actionInfo = _$_WordCombStoreActionController.startAction(
         name: '_WordCombStore.onItemTap');
@@ -157,7 +153,6 @@ usArr: ${usArr},
 sgArr: ${sgArr},
 status: ${status},
 answer: ${answer},
-curAnswer: ${curAnswer},
 isSpace: ${isSpace},
 curIndex: ${curIndex}
     ''';

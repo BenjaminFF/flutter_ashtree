@@ -14,7 +14,7 @@ abstract class _WordCombStore with Store {
   @observable
   int status = 0; // 0:normal  1:success  2:error
   @observable
-  String answer = '', curAnswer = '', isSpace = '#~~isSpace~~#';
+  String answer = '', isSpace = '#~~isSpace~~#';
   @observable
   int curIndex = 0;
 
@@ -88,13 +88,17 @@ abstract class _WordCombStore with Store {
       return;
 
     sgArr[index]['active'] = true;
-    curAnswer += sgArr[index]['text'];
     if (usArr[curIndex]['isSpace']) {
       curIndex++;
     }
     usArr[curIndex++]['text'] = sgArr[index]['text'];
 
     if (curIndex == usArr.length) {
+      print('ggg');
+      String curAnswer = '';
+      for (int i = 0; i < usArr.length; i++) {
+        curAnswer += usArr[i]['text'];
+      }
       status = curAnswer == answer.split(RegExp('\\s+')).join() ? 1 : 2;
     }
 

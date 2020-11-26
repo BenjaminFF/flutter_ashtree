@@ -40,10 +40,11 @@ class Router {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => widget,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: animation,
-          child: child,
-        );
+        // return FadeTransition(
+        //   opacity: animation,
+        //   child: child,
+        // );
+        return child;
       },
     );
   }

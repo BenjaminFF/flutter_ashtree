@@ -32,7 +32,7 @@ class HttpUtil {
     _dio = new Dio();
 
     BaseOptions options = BaseOptions();
-    options.baseUrl = 'http://192.168.1.10:8360/api';
+    options.baseUrl = 'http://192.168.47.79:8360/api';
     options.connectTimeout = 3 * 1000;
     options.receiveTimeout = 3 * 1000;
 
