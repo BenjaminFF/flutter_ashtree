@@ -117,10 +117,18 @@ class _HomeScreenState extends State<HomeScreen> {
     List sets = _homeStore.curSets;
     return sets != null
         ? Flexible(
-            child: ListView.builder(
-              itemCount: sets.length,
-              itemBuilder: (BuildContext context, int index) {
-                return renderListItem(index);
+            child: RefreshIndicator(
+              child: ListView.builder(
+                itemCount: sets.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return renderListItem(index);
+                },
+              ),
+              onRefresh: () async {
+                await Future.delayed(Duration(seconds: 1), () {
+                  _homeStore.onInit();
+                  return null;
+                });
               },
             ),
           )
