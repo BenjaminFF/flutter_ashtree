@@ -32,7 +32,7 @@ class HttpUtil {
     _dio = new Dio();
 
     BaseOptions options = BaseOptions();
-    options.baseUrl = 'http://192.168.47.14:8360/api';
+    options.baseUrl = 'http://192.168.47.146:8360/api';
     options.connectTimeout = 3 * 1000;
     options.receiveTimeout = 3 * 1000;
 
@@ -86,8 +86,12 @@ class HttpUtil {
           );
       }
     } else {
-      print('DioError');
+      // print('DioError');
       print(e.message);
+      Fluttertoast.showMToast(
+        msg: e.message,
+        toastType: ToastType.ERROR,
+      );
     }
   }
 

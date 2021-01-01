@@ -1,3 +1,4 @@
+import 'package:ashtree/views/builder/builder_screen.dart';
 import 'package:ashtree/views/learn/learn_screen.dart';
 import 'package:ashtree/views/login/login_screen.dart';
 import 'package:ashtree/views/home/home_screen.dart';
@@ -18,6 +19,7 @@ class Router {
   static const String homeRoute = '/home';
   static const String loginRoute = '/login';
   static const String learnRoute = '/learn';
+  static const String builderRoute = '/builder';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -27,6 +29,8 @@ class Router {
         return createRoute(HomeScreen());
       case loginRoute:
         return createRoute(LoginScreen());
+      case builderRoute:
+        return createRoute(BuilderScreen());
       case learnRoute:
         final LearnScreenArguments args = settings.arguments;
         return createRoute(

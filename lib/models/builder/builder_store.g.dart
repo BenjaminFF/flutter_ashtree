@@ -76,6 +76,42 @@ mixin _$BuilderStore on _BuilderStore, Store {
     return _$onInitAsyncAction.run(() => super.onInit());
   }
 
+  final _$_BuilderStoreActionController =
+      ActionController(name: '_BuilderStore');
+
+  @override
+  dynamic insertItem(dynamic index) {
+    final _$actionInfo = _$_BuilderStoreActionController.startAction(
+        name: '_BuilderStore.insertItem');
+    try {
+      return super.insertItem(index);
+    } finally {
+      _$_BuilderStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic removeItem(dynamic index) {
+    final _$actionInfo = _$_BuilderStoreActionController.startAction(
+        name: '_BuilderStore.removeItem');
+    try {
+      return super.removeItem(index);
+    } finally {
+      _$_BuilderStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic onValueChange(String type, int index, String value) {
+    final _$actionInfo = _$_BuilderStoreActionController.startAction(
+        name: '_BuilderStore.onValueChange');
+    try {
+      return super.onValueChange(type, index, value);
+    } finally {
+      _$_BuilderStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
