@@ -69,6 +69,21 @@ mixin _$BuilderStore on _BuilderStore, Store {
     });
   }
 
+  final _$curFocusIndexAtom = Atom(name: '_BuilderStore.curFocusIndex');
+
+  @override
+  int get curFocusIndex {
+    _$curFocusIndexAtom.reportRead();
+    return super.curFocusIndex;
+  }
+
+  @override
+  set curFocusIndex(int value) {
+    _$curFocusIndexAtom.reportWrite(value, super.curFocusIndex, () {
+      super.curFocusIndex = value;
+    });
+  }
+
   final _$onInitAsyncAction = AsyncAction('_BuilderStore.onInit');
 
   @override
@@ -113,12 +128,35 @@ mixin _$BuilderStore on _BuilderStore, Store {
   }
 
   @override
+  dynamic onValidate() {
+    final _$actionInfo = _$_BuilderStoreActionController.startAction(
+        name: '_BuilderStore.onValidate');
+    try {
+      return super.onValidate();
+    } finally {
+      _$_BuilderStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic disposeFocus() {
+    final _$actionInfo = _$_BuilderStoreActionController.startAction(
+        name: '_BuilderStore.disposeFocus');
+    try {
+      return super.disposeFocus();
+    } finally {
+      _$_BuilderStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 name: ${name},
 description: ${description},
 terms: ${terms},
-minTermCount: ${minTermCount}
+minTermCount: ${minTermCount},
+curFocusIndex: ${curFocusIndex}
     ''';
   }
 }

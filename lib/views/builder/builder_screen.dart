@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ashtree/services/local_storage/shared_preferances_service.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class BuilderScreen extends StatefulWidget {
   const BuilderScreen();
@@ -16,24 +17,28 @@ class BuilderScreen extends StatefulWidget {
 class _BuilderScreenState extends State<BuilderScreen> {
   final _builderStore = BuilderStore();
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
     _builderStore.onInit();
   }
 
-  renderInput({String type, int index}) {
+  renderInput({String type, int index, String id}) {
     var term = _builderStore.terms[index];
     return Container(
       padding: EdgeInsets.only(
           left: 16.0,
           right: 16.0,
-          top: type == 'term' ? 16 : 8,
-          bottom: type == 'term' ? 8 : 16),
+          top: type == 'term' ? 16 : 12,
+          bottom: type == 'term' ? 0 : 16),
       child: TextFormField(
+        key: ValueKey(type + id),
+        focusNode: type == 'term' ? term['termFocus'] : term['defFocus'],
         maxLength: type == 'term' ? 30 : 255,
         maxLines: type == 'term' ? 1 : 5,
         minLines: type == 'term' ? 1 : 2,
+        // validator: RequiredValidator(errorText: '请输入文本'),
         style: Theme.of(context).textTheme.bodyText2,
         controller: new TextEditingController(
             text: type == 'term' ? term['term'] : term['definition']),
@@ -61,8 +66,13 @@ class _BuilderScreenState extends State<BuilderScreen> {
                   left: 16, right: 16, bottom: 24, top: index == 0 ? 32 : 0),
               child: Column(
                 children: <Widget>[
-                  renderInput(type: 'term', index: index),
-                  renderInput(type: 'definition', index: index),
+                  renderInput(
+                      type: 'term', index: index, id: term['id'].toString()),
+                  renderInput(
+                    type: 'definition',
+                    index: index,
+                    id: term['id'].toString(),
+                  ),
                 ],
               ),
             ),
@@ -128,30 +138,8 @@ class _BuilderScreenState extends State<BuilderScreen> {
         key: listKey,
         initialItemCount: terms.length,
         itemBuilder: (context, index, animation) {
-          return listAnim(
-              context, index, animation, terms[index]); // Refer step 3
+          return listAnim(context, index, animation, terms[index]);
         },
-      ),
-    );
-  }
-
-  renderLoginButton() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16),
-      child: RaisedButton(
-        onPressed: () {
-          print(_builderStore.terms.toString());
-        },
-        child: Text(
-          '登陆',
-          style: TextStyle(fontSize: 16.0, letterSpacing: 12.0),
-        ),
-        splashColor: Theme.of(context).primaryColor,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
       ),
     );
   }
@@ -162,10 +150,34 @@ class _BuilderScreenState extends State<BuilderScreen> {
       body: Observer(
         builder: (_) => SafeArea(
           child: Column(
-            children: [renderItemBuilder(), renderLoginButton()],
+            children: [
+              Form(
+                key: _formKey,
+                autovalidate: true,
+                child: renderItemBuilder(),
+              ),
+            ],
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          // _formKey.currentState.validate();
+          _builderStore.onValidate();
+        },
+        child: Icon(
+          Icons.check,
+          color: Colors.white,
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    _builderStore.disposeFocus();
+    super.dispose();
   }
 }
