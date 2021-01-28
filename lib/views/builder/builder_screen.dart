@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ashtree/services/local_storage/shared_preferances_service.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 class BuilderScreen extends StatefulWidget {
@@ -101,6 +102,13 @@ class _BuilderScreenState extends State<BuilderScreen> {
                   child: FloatingActionButton(
                     onPressed: () async {
                       Slidable.of(_).close();
+                      if (_builderStore.terms.length <= 3) {
+                        Fluttertoast.showMToast(
+                          msg: '单词数量最少为3个',
+                          toastType: ToastType.ERROR,
+                        );
+                        return;
+                      }
                       listKey.currentState.removeItem(
                         index,
                         (_, animation) =>
@@ -178,6 +186,7 @@ class _BuilderScreenState extends State<BuilderScreen> {
   void dispose() {
     // Clean up the focus node when the Form is disposed.
     _builderStore.disposeFocus();
+    _builderStore.cacheSets();
     super.dispose();
   }
 }

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobx/mobx.dart';
 import 'package:ashtree/services/web_api/api.dart';
+import 'dart:convert';
+import 'package:ashtree/services/local_storage/shared_preferances_service.dart';
 
 part 'builder_store.g.dart';
 
@@ -22,7 +24,24 @@ abstract class _BuilderStore with Store {
 
   @action
   Future onInit() async {
+    String cacheItemsJson =
+        await SharedPreferanceService().getItem(key: "CacheItems");
     terms = new List();
+    if (cacheItemsJson != "") {
+      const JsonCodec JSON = JsonCodec();
+      List cacheItems = await JSON.decode(cacheItemsJson);
+      minTermCount -= cacheItems.length;
+      cacheItems.forEach((element) {
+        terms.add({
+          'id': UniqueKey(),
+          'term': element['term'],
+          'definition': element['definition'],
+          'termFocus': FocusNode(),
+          'defFocus': FocusNode()
+        });
+      });
+    }
+
     for (int i = 0; i < minTermCount; i++) {
       terms.add({
         'id': UniqueKey(),
@@ -74,6 +93,27 @@ abstract class _BuilderStore with Store {
         );
         return;
       }
+    }
+  }
+
+  @action
+  onSubmit() {}
+
+  @action
+  cacheSets() {
+    const JsonCodec JSON = JsonCodec();
+    List<Map> cacheTerms = new List();
+    for (int i = 0; i < terms.length; i++) {
+      if (terms[i]['term'] != "" || terms[i]['definition'] != "") {
+        cacheTerms.add({
+          'term': terms[i]['term'],
+          'definition': terms[i]['definition'],
+        });
+      }
+    }
+    if (cacheTerms.length > 0) {
+      String json = JSON.encode(cacheTerms);
+      SharedPreferanceService().setItem(key: 'CacheItems', value: json);
     }
   }
 
